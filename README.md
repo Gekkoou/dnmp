@@ -38,6 +38,7 @@
 ├── mysql                        MySQL数据文件目录
 ├── php                          PHP目录
 │   └── php56                    PHP5.6目录
+│       └── Dockerfile           Dockerfile配置文件
 ├── www                          站点根目录
 │   └── index.php                index文件
 └── docker-compose.yml           docker-compose配置文件
