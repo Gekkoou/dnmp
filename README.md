@@ -15,7 +15,7 @@
     ```
 4. 默认站点在浏览器中访问 `localhost`
 
-   phpmyadmin 访问 `localhost:8080`
+   phpmyadmin 访问 `localhost:8080`, 帐号 `root` 密码 `root`
 
 目录结构
 ----
