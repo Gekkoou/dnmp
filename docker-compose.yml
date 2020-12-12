@@ -1,61 +1,176 @@
-version: "2"
+version: "3"
 services:
   nginx:
-    image: nginx:alpine
+    image: nginx:${NGINX_VERSION}
     container_name: my-nginx
+    environment:
+      TZ : ${TZ}
     ports:
-      - "80:80"
-      - "443:443"
+      - "${NGINX_HTTP_HOST_PORT}:80"
+      - "${NGINX_HTTPS_HOST_PORT}:443"
     volumes:
-      - ./conf/nginx/conf.d/:/etc/nginx/conf.d/:ro
-      - ./conf/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./log/nginx/:/var/log/nginx/:rw
-      - ./www/:/var/www/:rw
+      - ${NGINX_CONFD_DIR}:/etc/nginx/conf.d/:ro
+      - ${NGINX_CONF_FILE}:/etc/nginx/nginx.conf:ro
+      - ${NGINX_LOG_DIR}:/var/log/nginx/:rw
+      - ${SOURCE_DIR}:/var/www/html/:rw
+    restart: always
     networks:
-      - net-php
+      - my-services
 
-  php:
-    build: ./php/php56/
+  php74:
+    container_name: my-php74
+    build:
+      context: .
+      args:
+        PHP_VERSION: php:${PHP74_VERSION}
+        PHP_EXTENSIONS: ${PHP74_EXTENSIONS}
+        CONTAINER_PACKAGE_URL : ${CONTAINER_PACKAGE_URL}
+        TZ : ${TZ}
     expose:
-      - "9000"
+      - ${PHP74_HOST_PORT}
     volumes:
-      - ./conf/php/php.ini:/etc/php/php.ini:ro
-      - ./conf/php/php-fpm.conf:/etc/php/php-fpm.conf:ro
-      - ./log/php/:/var/log/php/:rw
-      - ./www/:/var/www/:rw
+      - ${PHP74_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      - ${PHP74_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:ro
+      - ${PHP74_LOG_DIR}:/var/log/php/:rw
+      - ${SOURCE_DIR}:/var/www/html/:rw
+    restart: always
     networks:
-      - net-php
-      - net-mysql
+      - my-services
+
+  php72:
+    container_name: my-php72
+    build:
+      context: .
+      args:
+        PHP_VERSION: php:${PHP72_VERSION}
+        PHP_EXTENSIONS: ${PHP72_EXTENSIONS}
+        CONTAINER_PACKAGE_URL : ${CONTAINER_PACKAGE_URL}
+        TZ : ${TZ}
+    expose:
+      - ${PHP72_HOST_PORT}
+    volumes:
+      - ${PHP72_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      - ${PHP72_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:ro
+      - ${PHP72_LOG_DIR}:/var/log/php/:rw
+      - ${SOURCE_DIR}:/var/www/html/:rw
+    restart: always
+    networks:
+      - my-services
+
+#  php70:
+#    container_name: my-php70
+#    build:
+#      context: .
+#      args:
+#        PHP_VERSION: php:${PHP70_VERSION}
+#        PHP_EXTENSIONS: ${PHP70_EXTENSIONS}
+#        CONTAINER_PACKAGE_URL : ${CONTAINER_PACKAGE_URL}
+#        TZ : ${TZ}
+#    expose:
+#      - ${PHP70_HOST_PORT}
+#    volumes:
+#      - ${PHP70_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+#      - ${PHP70_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:ro
+#      - ${PHP70_LOG_DIR}:/var/log/php/:rw
+#      - ${SOURCE_DIR}:/var/www/html/:rw
+#    restart: always
+#    networks:
+#      - my-services
+
+#  php56:
+#    container_name: my-php56
+#    build:
+#      context: .
+#      args:
+#        PHP_VERSION: php:${PHP56_VERSION}
+#        PHP_EXTENSIONS: ${PHP56_EXTENSIONS}
+#        CONTAINER_PACKAGE_URL : ${CONTAINER_PACKAGE_URL}
+#        TZ : ${TZ}
+#    expose:
+#      - ${PHP56_HOST_PORT}
+#    volumes:
+#      - ${PHP56_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+#      - ${PHP56_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:ro
+#      - ${PHP56_LOG_DIR}:/var/log/php/:rw
+#      - ${SOURCE_DIR}:/var/www/html/:rw
+#    restart: always
+#    networks:
+#      - my-services
+
+  hyperf:
+    container_name: my-hyperf
+    build:
+      context: ./services/hyperf
+      args:
+        HYPERF_VERSION: hyperf/hyperf:${HYPERF_VERSION}
+        CONTAINER_PACKAGE_URL : ${CONTAINER_PACKAGE_URL}
+        TZ : ${TZ}
+    expose:
+      - ${HYPERF_HOST_PORT}
+    volumes:
+      - ${HYPERF_PHP_CONF_FILE}:/etc/php7/php.ini:ro
+      - ${HYPERF_LOG_DIR}:/var/log/php/:rw
+      - ${SOURCE_DIR}:/var/www/html/:rw
+    restart: always
+    networks:
+      - my-services
+    tty: true
 
   mysql:
-    image: mysql:5.7
+    image: mysql:${MYSQL_VERSION}
     container_name: my-mysql
+    environment:
+      TZ : ${TZ}
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
     ports:
-      - "3306:3306"
+      - "${MYSQL_HOST_PORT}:3306"
     volumes:
-      - ./conf/mysql/my.cnf:/etc/mysql/my.cnf:ro
-      - ./log/mysql/:/var/log/mysql/:rw
-      - ./mysql/:/var/lib/mysql/:rw
-    environment:
-      MYSQL_USER: "root"
-      MYSQL_PASSWORD: "root"
-      MYSQL_ROOT_PASSWORD: "root"
+      - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+      - ${MYSQL_LOG_DIR}:/var/log/mysql/:rw
+      - ${MYSQL_DATA_DIR}:/var/lib/mysql/:rw
+    restart: always
     networks:
-      - net-mysql
-      
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    container_name: my-phpmyadmin
+      - my-services
+
+  redis:
+    image: redis:${REDIS_VERSION}
+    container_name: my-redis
+    environment:
+      TZ : ${TZ}
     ports:
-      - "8080:80"
-    environment:
-      MYSQL_USER: "root"
-      MYSQL_PASSWORD: "root"
-      MYSQL_ROOT_PASSWORD: "root"
-      PMA_HOST: my-mysql
+      - "${REDIS_HOST_PORT}:6379"
+    volumes:
+      - ${REDIS_CONF_FILE}:/etc/redis.conf:ro
+      - ${REDIS_DATA_DIR}:/data/:rw
+      - ${REDIS_LOG_DIR}:/var/log/redis/:rw
+    restart: always
+    entrypoint: ["redis-server", "/etc/redis.conf"]
     networks:
-      - net-mysql
+      - my-services
+
+  mongodb:
+    image: mongo:${MONGODB_VERSION}
+    container_name: my-mongodb
+    environment:
+      TZ : ${TZ}
+      MONGO_INITDB_ROOT_USERNAME: "${MONGODB_INITDB_ROOT_USERNAME}"
+      MONGO_INITDB_ROOT_PASSWORD: "${MONGODB_INITDB_ROOT_PASSWORD}"
+    ports:
+      - "${MONGODB_HOST_PORT}:27017"
+    volumes:
+      - ${MONGODB_CONF_FILE}:/etc/mongod.conf:ro
+    #  - ${MONGODB_DATA_DIR}:/data/db/:rw # OS: linux
+      - mongodata:/data/db:rw # OS: windows
+      - ${MONGODB_LOG_DIR}:/var/log/mongodb/:rw
+    restart: always
+    command:
+       --config /etc/mongod.conf
+    networks:
+      - my-services
+
+# mongodb volume
+volumes:
+  mongodata:
 
 networks:
-  net-php:
-  net-mysql:
+  my-services:
