@@ -32,7 +32,7 @@
 │   │   │   └── mongod.conf
 │   │   │── data
 │   │   └── log
-│   ├── mysql                       mysql目录 (配置文件/数据/日志)
+│   ├── mysql                       Mysql目录 (配置文件/数据/日志)
 │   │   │── conf
 │   │   │   └── mysql.cnf
 │   │   │── data
