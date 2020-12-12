@@ -1,4 +1,6 @@
-### docker + nginx + php-fpm + mysql
+### docker + nginx + mysql + php7/5
+
+**扩展 redis + mongodb + swoole** (更多扩展可编辑 `.env` 文件)
 
 使用
 ----
@@ -15,86 +17,50 @@
     ```
 4. 默认站点在浏览器中访问 `localhost`
 
-   phpmyadmin 访问 `localhost:8080`, 帐号 `root` 密码 `root`
-
 目录结构
 ----
 
 ```
-├── services
-│   ├── hyperf
+├── services                        服务构建文件和配置文件目录
+│   ├── hyperf                      Hyperf目录 (配置文件/日志)
 │   │   │── conf
 │   │   │   └── php.ini
 │   │   │── log
 │   │   └── Dockerfile
-│   ├── mongo
+│   ├── mongo                       Mongo目录 (配置文件/数据/日志)
 │   │   │── conf
 │   │   │   └── mongod.conf
 │   │   │── data
 │   │   └── log
-│   ├── mysql
+│   ├── mysql                       mysql目录 (配置文件/数据/日志)
 │   │   │── conf
 │   │   │   └── mysql.cnf
 │   │   │── data
 │   │   └── log
-│   ├── nginx
+│   ├── nginx                       Nginx目录 (配置文件/日志)
 │   │   │── conf
 │   │   │   │── conf.d
 │   │   │   │   └── default.conf
 │   │   │   └── nginx.conf
 │   │   └── log
-│   ├── php56
+│   ├── php56                       PHP56目录 (配置文件/日志)
 │   │   │── conf
 │   │   │   │── php.ini
 │   │   │   └── php-fpm.conf
 │   │   └── log
-│   ├── php70
+│   ├── php74                       PHP74目录 (配置文件/日志)
 │   │   │── conf
 │   │   │   │── php.ini
 │   │   │   └── php-fpm.conf
 │   │   └── log
-│   ├── php72
-│   │   │── conf
-│   │   │   │── php.ini
-│   │   │   └── php-fpm.conf
-│   │   └── log
-│   ├── php74
-│   │   │── conf
-│   │   │   │── php.ini
-│   │   │   └── php-fpm.conf
-│   │   └── log
-│   └── redis
+│   └── redis                       Redis目录 (配置文件/数据/日志)
 │       │── conf
 │       │   └── redis.conf
 │       │── data
 │       └── log
-├── www
-├── .env
-├── docker-compose.yml
-├── Dockerfile
-└── install.sh
-
-├── conf                         配置目录
-│   ├── mysql                    MySQL配置文件目录
-│   │   └── my.cnf               MySQL配置文件
-│   ├── nginx                    Nginx配置文件目录
-│   │   ├── conf.d               站点配置文件目录
-│   │   │   └── default.conf     默认站点配置文件
-│   │   └── nginx.conf           Nginx通用配置文件
-│   └── php                      PHP配置目录
-│       │── php.ini              PHP配置文件
-│       └── php-fpm.conf         PHP-FPM配置文件
-├── log                          日志目录
-│   ├── mysql                    MySQL日志目录
-│   ├── nginx                    Nginx日志目录
-│   └── php                      PHP日志目录
-├── mysql                        MySQL数据文件目录
-├── php                          PHP目录
-│   └── php56                    PHP5.6目录
-│       └── Dockerfile           Dockerfile配置文件
-├── www                          站点根目录
-│   └── index.php                index文件
-└── docker-compose.yml           docker-compose配置文件
-
-
+├── www                             站点根目录
+├── .env                            环境配置文件
+├── docker-compose.yml              docker-compose配置文件
+├── Dockerfile                      php各版本Dockerfile文件
+└── install.sh                      php扩展配置文件
 ```
