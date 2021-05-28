@@ -1,6 +1,6 @@
 ### docker + nginx + mysql + php7/5
 
-**扩展 redis + mongodb + swoole** (更多扩展可编辑 `.env` 文件)
+**扩展 redis + mongodb + swoole + elasticsearch** (更多扩展可编辑 `.env` 文件)
 
 使用
 ----
@@ -22,6 +22,10 @@
 
 ```
 ├── services                        服务构建文件和配置文件目录
+│   ├── elasticsearch               Elasticsearch目录 (配置文件/数据)
+│   │   │── conf
+│   │   │   └── elasticsearch.yml
+│   │   └── data
 │   ├── hyperf                      Hyperf目录 (配置文件/日志)
 │   │   │── conf
 │   │   │   └── php.ini
