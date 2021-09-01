@@ -38,7 +38,7 @@ export EXTENSIONS=",${PHP_EXTENSIONS},"
 # Return : 1 if greater than or equal to, 0 if less than
 #
 isPhpVersionGreaterOrEqual()
- {
+{
     local PHP_MAJOR_VERSION=$(php -r "echo PHP_MAJOR_VERSION;")
     local PHP_MINOR_VERSION=$(php -r "echo PHP_MINOR_VERSION;")
 
@@ -57,12 +57,12 @@ fi
 
 if [[ -z "${EXTENSIONS##*,pcntl,*}" ]]; then
     echo "---------- Install pcntl ----------"
-	docker-php-ext-install ${MC} pcntl
+    docker-php-ext-install ${MC} pcntl
 fi
 
 if [[ -z "${EXTENSIONS##*,mysqli,*}" ]]; then
     echo "---------- Install mysqli ----------"
-	docker-php-ext-install ${MC} mysqli
+    docker-php-ext-install ${MC} mysqli
 fi
 
 if [[ -z "${EXTENSIONS##*,mbstring,*}" ]]; then
@@ -71,22 +71,22 @@ fi
 
 if [[ -z "${EXTENSIONS##*,exif,*}" ]]; then
     echo "---------- Install exif ----------"
-	docker-php-ext-install ${MC} exif
+    docker-php-ext-install ${MC} exif
 fi
 
 if [[ -z "${EXTENSIONS##*,bcmath,*}" ]]; then
     echo "---------- Install bcmath ----------"
-	docker-php-ext-install ${MC} bcmath
+    docker-php-ext-install ${MC} bcmath
 fi
 
 if [[ -z "${EXTENSIONS##*,calendar,*}" ]]; then
     echo "---------- Install calendar ----------"
-	docker-php-ext-install ${MC} calendar
+    docker-php-ext-install ${MC} calendar
 fi
 
 if [[ -z "${EXTENSIONS##*,zend_test,*}" ]]; then
     echo "---------- Install zend_test ----------"
-	docker-php-ext-install ${MC} zend_test
+    docker-php-ext-install ${MC} zend_test
 fi
 
 if [[ -z "${EXTENSIONS##*,opcache,*}" ]]; then
@@ -96,7 +96,7 @@ fi
 
 if [[ -z "${EXTENSIONS##*,sockets,*}" ]]; then
     echo "---------- Install sockets ----------"
-	docker-php-ext-install ${MC} sockets
+    docker-php-ext-install ${MC} sockets
 fi
 
 if [[ -z "${EXTENSIONS##*,gettext,*}" ]]; then
@@ -106,42 +106,42 @@ fi
 
 if [[ -z "${EXTENSIONS##*,shmop,*}" ]]; then
     echo "---------- Install shmop ----------"
-	docker-php-ext-install ${MC} shmop
+    docker-php-ext-install ${MC} shmop
 fi
 
 if [[ -z "${EXTENSIONS##*,sysvmsg,*}" ]]; then
     echo "---------- Install sysvmsg ----------"
-	docker-php-ext-install ${MC} sysvmsg
+    docker-php-ext-install ${MC} sysvmsg
 fi
 
 if [[ -z "${EXTENSIONS##*,sysvsem,*}" ]]; then
     echo "---------- Install sysvsem ----------"
-	docker-php-ext-install ${MC} sysvsem
+    docker-php-ext-install ${MC} sysvsem
 fi
 
 if [[ -z "${EXTENSIONS##*,sysvshm,*}" ]]; then
     echo "---------- Install sysvshm ----------"
-	docker-php-ext-install ${MC} sysvshm
+    docker-php-ext-install ${MC} sysvshm
 fi
 
 if [[ -z "${EXTENSIONS##*,pdo_firebird,*}" ]]; then
     echo "---------- Install pdo_firebird ----------"
-	docker-php-ext-install ${MC} pdo_firebird
+    docker-php-ext-install ${MC} pdo_firebird
 fi
 
 if [[ -z "${EXTENSIONS##*,pdo_dblib,*}" ]]; then
     echo "---------- Install pdo_dblib ----------"
-	docker-php-ext-install ${MC} pdo_dblib
+    docker-php-ext-install ${MC} pdo_dblib
 fi
 
 if [[ -z "${EXTENSIONS##*,pdo_oci,*}" ]]; then
     echo "---------- Install pdo_oci ----------"
-	docker-php-ext-install ${MC} pdo_oci
+    docker-php-ext-install ${MC} pdo_oci
 fi
 
 if [[ -z "${EXTENSIONS##*,pdo_odbc,*}" ]]; then
     echo "---------- Install pdo_odbc ----------"
-	docker-php-ext-install ${MC} pdo_odbc
+    docker-php-ext-install ${MC} pdo_odbc
 fi
 
 if [[ -z "${EXTENSIONS##*,pdo_pgsql,*}" ]]; then
@@ -158,23 +158,23 @@ fi
 
 if [[ -z "${EXTENSIONS##*,oci8,*}" ]]; then
     echo "---------- Install oci8 ----------"
-	docker-php-ext-install ${MC} oci8
+    docker-php-ext-install ${MC} oci8
 fi
 
 if [[ -z "${EXTENSIONS##*,odbc,*}" ]]; then
     echo "---------- Install odbc ----------"
-	docker-php-ext-install ${MC} odbc
+    docker-php-ext-install ${MC} odbc
 fi
 
 if [[ -z "${EXTENSIONS##*,dba,*}" ]]; then
     echo "---------- Install dba ----------"
-	docker-php-ext-install ${MC} dba
+    docker-php-ext-install ${MC} dba
 fi
 
 if [[ -z "${EXTENSIONS##*,interbase,*}" ]]; then
     echo "---------- Install interbase ----------"
     echo "Alpine linux do not support interbase/firebird!!!"
-	#docker-php-ext-install ${MC} interbase
+    #docker-php-ext-install ${MC} interbase
 fi
 
 if [[ -z "${EXTENSIONS##*,gd,*}" ]]; then
@@ -220,25 +220,25 @@ fi
 if [[ -z "${EXTENSIONS##*,soap,*}" ]]; then
     echo "---------- Install soap ----------"
     apk add --no-cache libxml2-dev
-	docker-php-ext-install ${MC} soap
+    docker-php-ext-install ${MC} soap
 fi
 
 if [[ -z "${EXTENSIONS##*,xsl,*}" ]]; then
     echo "---------- Install xsl ----------"
-	apk add --no-cache libxml2-dev libxslt-dev
-	docker-php-ext-install ${MC} xsl
+    apk add --no-cache libxml2-dev libxslt-dev
+    docker-php-ext-install ${MC} xsl
 fi
 
 if [[ -z "${EXTENSIONS##*,xmlrpc,*}" ]]; then
     echo "---------- Install xmlrpc ----------"
-	apk add --no-cache libxml2-dev libxslt-dev
-	docker-php-ext-install ${MC} xmlrpc
+    apk add --no-cache libxml2-dev libxslt-dev
+    docker-php-ext-install ${MC} xmlrpc
 fi
 
 if [[ -z "${EXTENSIONS##*,wddx,*}" ]]; then
     echo "---------- Install wddx ----------"
-	apk add --no-cache libxml2-dev libxslt-dev
-	docker-php-ext-install ${MC} wddx
+    apk add --no-cache libxml2-dev libxslt-dev
+    docker-php-ext-install ${MC} wddx
 fi
 
 if [[ -z "${EXTENSIONS##*,curl,*}" ]]; then
@@ -247,64 +247,64 @@ fi
 
 if [[ -z "${EXTENSIONS##*,readline,*}" ]]; then
     echo "---------- Install readline ----------"
-	apk add --no-cache readline-dev
-	apk add --no-cache libedit-dev
-	docker-php-ext-install ${MC} readline
+    apk add --no-cache readline-dev
+    apk add --no-cache libedit-dev
+    docker-php-ext-install ${MC} readline
 fi
 
 if [[ -z "${EXTENSIONS##*,snmp,*}" ]]; then
     echo "---------- Install snmp ----------"
-	apk add --no-cache net-snmp-dev
-	docker-php-ext-install ${MC} snmp
+    apk add --no-cache net-snmp-dev
+    docker-php-ext-install ${MC} snmp
 fi
 
 if [[ -z "${EXTENSIONS##*,pspell,*}" ]]; then
     echo "---------- Install pspell ----------"
-	apk add --no-cache aspell-dev
-	apk add --no-cache aspell-en
-	docker-php-ext-install ${MC} pspell
+    apk add --no-cache aspell-dev
+    apk add --no-cache aspell-en
+    docker-php-ext-install ${MC} pspell
 fi
 
 if [[ -z "${EXTENSIONS##*,recode,*}" ]]; then
     echo "---------- Install recode ----------"
-	apk add --no-cache recode-dev
-	docker-php-ext-install ${MC} recode
+    apk add --no-cache recode-dev
+    docker-php-ext-install ${MC} recode
 fi
 
 if [[ -z "${EXTENSIONS##*,tidy,*}" ]]; then
     echo "---------- Install tidy ----------"
-	apk add --no-cache tidyhtml-dev
+    apk add --no-cache tidyhtml-dev
 
-	# Fix: https://github.com/htacg/tidy-html5/issues/235
-	ln -s /usr/include/tidybuffio.h /usr/include/buffio.h
+    # Fix: https://github.com/htacg/tidy-html5/issues/235
+    ln -s /usr/include/tidybuffio.h /usr/include/buffio.h
 
-	docker-php-ext-install ${MC} tidy
+    docker-php-ext-install ${MC} tidy
 fi
 
 if [[ -z "${EXTENSIONS##*,gmp,*}" ]]; then
     echo "---------- Install gmp ----------"
-	apk add --no-cache gmp-dev
-	docker-php-ext-install ${MC} gmp
+    apk add --no-cache gmp-dev
+    docker-php-ext-install ${MC} gmp
 fi
 
 if [[ -z "${EXTENSIONS##*,imap,*}" ]]; then
     echo "---------- Install imap ----------"
-	apk add --no-cache imap-dev
+    apk add --no-cache imap-dev
     docker-php-ext-configure imap --with-imap --with-imap-ssl
-	docker-php-ext-install ${MC} imap
+    docker-php-ext-install ${MC} imap
 fi
 
 if [[ -z "${EXTENSIONS##*,ldap,*}" ]]; then
     echo "---------- Install ldap ----------"
-	apk add --no-cache ldb-dev
-	apk add --no-cache openldap-dev
-	docker-php-ext-install ${MC} ldap
+    apk add --no-cache ldb-dev
+    apk add --no-cache openldap-dev
+    docker-php-ext-install ${MC} ldap
 fi
 
 if [[ -z "${EXTENSIONS##*,imagick,*}" ]]; then
     echo "---------- Install imagick ----------"
-	apk add --no-cache file-dev
-	apk add --no-cache imagemagick-dev
+    apk add --no-cache file-dev
+    apk add --no-cache imagemagick-dev
     printf "\n" | pecl install imagick-3.4.4
     docker-php-ext-enable imagick
 fi
@@ -375,7 +375,7 @@ fi
 
 if [[ -z "${EXTENSIONS##*,varnish,*}" ]]; then
     echo "---------- Install varnish ----------"
-	apk add --no-cache varnish-dev
+    apk add --no-cache varnish-dev
     printf "\n" | pecl install varnish
     docker-php-ext-enable varnish
 fi
@@ -439,14 +439,14 @@ if [[ -z "${EXTENSIONS##*,sodium,*}" ]]; then
         echo "---------- Install sodium ----------"
         apk add --no-cache libsodium-dev
         docker-php-ext-install ${MC} sodium
-	fi
+    fi
 fi
 
 if [[ -z "${EXTENSIONS##*,amqp,*}" ]]; then
     echo "---------- Install amqp ----------"
     apk add --no-cache rabbitmq-c-dev
     printf "\n" | pecl install amqp-1.10.2
-	docker-php-ext-enable amqp
+    docker-php-ext-enable amqp
 fi
 
 if [[ -z "${EXTENSIONS##*,redis,*}" ]]; then
@@ -458,13 +458,13 @@ if [[ -z "${EXTENSIONS##*,redis,*}" ]]; then
         printf "\n" | pecl install redis-4.3.0
     fi
 
-	docker-php-ext-enable redis
+    docker-php-ext-enable redis
 fi
 
 if [[ -z "${EXTENSIONS##*,apcu,*}" ]]; then
     echo "---------- Install apcu ----------"
     printf "\n" | pecl install apcu-5.1.17
-	docker-php-ext-enable apcu
+    docker-php-ext-enable apcu
 fi
 
 if [[ -z "${EXTENSIONS##*,memcached,*}" ]]; then
@@ -522,14 +522,14 @@ if [[ -z "${EXTENSIONS##*,event,*}" ]]; then
     fi
 
     echo "---------- Install event again ----------"
-	printf "\n" | pecl install event-2.5.3
-	docker-php-ext-enable event
+    printf "\n" | pecl install event-2.5.3
+    docker-php-ext-enable event
 fi
 
 if [[ -z "${EXTENSIONS##*,mongodb,*}" ]]; then
     echo "---------- Install mongodb ----------"
     printf "\n" | pecl install mongodb-1.7.4
-	docker-php-ext-enable mongodb
+    docker-php-ext-enable mongodb
 fi
 
 if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
@@ -542,7 +542,7 @@ if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
         printf "\n" | pecl install yaf-2.3.5
     fi
 
-	docker-php-ext-enable yaf
+    docker-php-ext-enable yaf
 fi
 
 if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
@@ -555,7 +555,7 @@ if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
 		printf "\n" | pecl install swoole-2.0.11
     fi
 
-	docker-php-ext-enable swoole
+    docker-php-ext-enable swoole
 fi
 
 if [[ -z "${EXTENSIONS##*,zip,*}" ]]; then
@@ -568,7 +568,7 @@ if [[ -z "${EXTENSIONS##*,zip,*}" ]]; then
         docker-php-ext-configure zip --with-libzip=/usr/include
     fi
 
-	docker-php-ext-install ${MC} zip
+    docker-php-ext-install ${MC} zip
 fi
 
 if [[ -z "${EXTENSIONS##*,xhprof,*}" ]]; then
@@ -582,7 +582,6 @@ if [[ -z "${EXTENSIONS##*,xhprof,*}" ]]; then
     else
        echo "---------- PHP Version>= 7.0----------"
     fi
-
 fi
 
 if [[ -z "${EXTENSIONS##*,xlswriter,*}" ]]; then
