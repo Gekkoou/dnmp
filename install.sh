@@ -17,8 +17,7 @@ echo
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then
     apk --update add --no-cache --virtual .build-deps autoconf g++ libtool make curl-dev gettext-dev linux-headers
-	apk --update add --no-cache --virtual .phpize-deps $PHPIZE_DEPS
-	pecl channel-update pecl.php.net
+    pecl channel-update pecl.php.net
 fi
 
 
@@ -102,7 +101,7 @@ fi
 
 if [[ -z "${EXTENSIONS##*,gettext,*}" ]]; then
     echo "---------- Install gettext ----------"
-	docker-php-ext-install ${MC} gettext
+    docker-php-ext-install ${MC} gettext
 fi
 
 if [[ -z "${EXTENSIONS##*,shmop,*}" ]]; then
@@ -147,14 +146,14 @@ fi
 
 if [[ -z "${EXTENSIONS##*,pdo_pgsql,*}" ]]; then
     echo "---------- Install pdo_pgsql ----------"
-    apk --no-cache add postgresql-dev \
-    && docker-php-ext-install ${MC} pdo_pgsql
+    apk --no-cache add postgresql-dev
+    docker-php-ext-install ${MC} pdo_pgsql
 fi
 
 if [[ -z "${EXTENSIONS##*,pgsql,*}" ]]; then
     echo "---------- Install pgsql ----------"
-    apk --no-cache add postgresql-dev \
-    && docker-php-ext-install ${MC} pgsql
+    apk --no-cache add postgresql-dev
+    docker-php-ext-install ${MC} pgsql
 fi
 
 if [[ -z "${EXTENSIONS##*,oci8,*}" ]]; then
@@ -185,9 +184,9 @@ if [[ -z "${EXTENSIONS##*,gd,*}" ]]; then
     if [[ "$?" = "1" ]]; then
         # "--with-xxx-dir" was removed from php 7.4,
         # issue: https://github.com/docker-library/php/issues/912
-        options="--with-freetype --with-jpeg"
+        options="--with-freetype --with-jpeg --with-webp"
     else
-        options="--with-gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/"
+        options="--with-gd --with-freetype-dir=/usr/include/ --with-png-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-webp-dir=/usr/include/"
     fi
 
     apk add --no-cache \
@@ -197,9 +196,10 @@ if [[ -z "${EXTENSIONS##*,gd,*}" ]]; then
         libpng-dev \
         libjpeg-turbo \
         libjpeg-turbo-dev \
-    && docker-php-ext-configure gd ${options} \
-    && docker-php-ext-install ${MC} gd \
-    && apk del \
+        libwebp-dev
+    docker-php-ext-configure gd ${options}
+    docker-php-ext-install ${MC} gd
+    apk del \
         freetype-dev \
         libpng-dev \
         libjpeg-turbo-dev
@@ -333,11 +333,15 @@ if [[ -z "${EXTENSIONS##*,igbinary,*}" ]]; then
     docker-php-ext-enable igbinary
 fi
 
-
 if [[ -z "${EXTENSIONS##*,yac,*}" ]]; then
-    echo "---------- Install yac ----------"
-    printf "\n" | pecl install yac-2.0.2
-    docker-php-ext-enable yac
+    isPhpVersionGreaterOrEqual 7 0
+    if [[ "$?" = "1" ]]; then
+        echo "---------- Install yac ----------"
+        printf "\n" | pecl install yac-2.0.2
+        docker-php-ext-enable yac
+    else
+        echo "yar requires PHP >= 7.0.0, installed version is ${PHP_VERSION}"
+    fi
 fi
 
 if [[ -z "${EXTENSIONS##*,yar,*}" ]]; then
@@ -352,11 +356,15 @@ if [[ -z "${EXTENSIONS##*,yar,*}" ]]; then
 
 fi
 
-
 if [[ -z "${EXTENSIONS##*,yaconf,*}" ]]; then
-    echo "---------- Install yaconf ----------"
-    printf "\n" | pecl install yaconf
-    docker-php-ext-enable yaconf
+    isPhpVersionGreaterOrEqual 7 0
+    if [[ "$?" = "1" ]]; then
+        echo "---------- Install yaconf ----------"
+        printf "\n" | pecl install yaconf
+        docker-php-ext-enable yaconf
+    else
+        echo "yar requires PHP >= 7.0.0, installed version is ${PHP_VERSION}"
+    fi
 fi
 
 if [[ -z "${EXTENSIONS##*,seaslog,*}" ]]; then
@@ -397,13 +405,16 @@ if [[ -z "${EXTENSIONS##*,sqlsrv,*}" ]]; then
 fi
 
 if [[ -z "${EXTENSIONS##*,mcrypt,*}" ]]; then
-    isPhpVersionGreaterOrEqual 7 2
+    isPhpVersionGreaterOrEqual 7 0
     if [[ "$?" = "1" ]]; then
-        echo "---------- mcrypt was REMOVED from PHP 7.2.0 ----------"
+        echo "---------- Install mcrypt ----------"
+        apk add --no-cache libmcrypt-dev libmcrypt re2c
+        printf "\n" |pecl install mcrypt
+        docker-php-ext-enable mcrypt
     else
         echo "---------- Install mcrypt ----------"
-        apk add --no-cache libmcrypt-dev \
-        && docker-php-ext-install ${MC} mcrypt
+        apk add --no-cache libmcrypt-dev
+        docker-php-ext-install ${MC} mcrypt
     fi
 fi
 
@@ -511,7 +522,6 @@ if [[ -z "${EXTENSIONS##*,event,*}" ]]; then
     fi
 
     echo "---------- Install event again ----------"
-    #installExtensionFromTgz event-2.5.3  "--ini-name event.ini"
 	printf "\n" | pecl install event-2.5.3
 	docker-php-ext-enable event
 fi
@@ -534,7 +544,6 @@ if [[ -z "${EXTENSIONS##*,yaf,*}" ]]; then
 
 	docker-php-ext-enable yaf
 fi
-
 
 if [[ -z "${EXTENSIONS##*,swoole,*}" ]]; then
     echo "---------- Install swoole ----------"
@@ -568,10 +577,8 @@ if [[ -z "${EXTENSIONS##*,xhprof,*}" ]]; then
     isPhpVersionGreaterOrEqual 7 0
 
     if [[ "$?" = "1" ]]; then
-        mkdir xhprof \
-        && tar -xf xhprof-2.1.0.tgz -C xhprof --strip-components=1 \
-        && ( cd xhprof/extension/ && phpize && ./configure  && make ${MC} && make install ) \
-        && docker-php-ext-enable xhprof
+        printf "\n" | pecl install xhprof-2.2.0
+        docker-php-ext-enable xhprof
     else
        echo "---------- PHP Version>= 7.0----------"
     fi
@@ -618,6 +625,6 @@ if [[ -z "${EXTENSIONS##*,zookeeper,*}" ]]; then
 fi
 
 if [ "${PHP_EXTENSIONS}" != "" ]; then
-    apk del .build-deps \
-    && docker-php-source delete
+    apk del .build-deps
+    docker-php-source delete
 fi
