@@ -9,7 +9,11 @@ RUN sed -i "s/dl-cdn.alpinelinux.org/${CONTAINER_PACKAGE_URL}/g" /etc/apk/reposi
 
 COPY ./install.sh /tmp/install.sh
 WORKDIR /tmp
-RUN chmod +x install.sh \
+RUN tr -d "\r" <install.sh >install-1.sh \
+    && rm -rf /tmp/install.sh \
+    && tr "\r" "\n" <install-1.sh >install.sh \
+    && rm -rf /tmp/install-1.sh \
+    && chmod +x install.sh \
     && sh install.sh \
     && rm -rf /tmp/install.sh \
     && rm -rf /tmp/pear
