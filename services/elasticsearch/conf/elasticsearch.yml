@@ -1,3 +1,5 @@
 cluster.name: "docker-cluster"
 network.host: 0.0.0.0
 node.name: my-elasticsearch
+cluster.routing.allocation.disk.threshold_enabled: false
+ingest.geoip.downloader.enabled: false

@@ -181,9 +181,23 @@ services:
     volumes:
       - ${ELASTICSEARCH_CONF_FILE}:/usr/share/elasticsearch/config/elasticsearch.yml:ro
       - ${ELASTICSEARCH_DATA_DIR}:/usr/share/elasticsearch/data/:rw
+      - ${ELASTICSEARCH_LOG_DIR}:/usr/share/elasticsearch/logs/:rw
     restart: always
     networks:
       - my-services
+
+  node:
+    image: node:${NODE_VERSION}
+    container_name: my-node
+    ports:
+      - "${NODE_HOST_PORT}:8080"
+    volumes:
+      - ${SOURCE_DIR}:/var/www/html/:rw
+    restart: always
+    networks:
+      - my-services
+    working_dir: /var/www/html/
+    tty: true
 
 # mongodb volume
 volumes:
