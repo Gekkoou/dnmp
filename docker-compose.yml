@@ -159,8 +159,7 @@ services:
       - "${MONGODB_HOST_PORT}:27017"
     volumes:
       - ${MONGODB_CONF_FILE}:/etc/mongod.conf:ro
-    #  - ${MONGODB_DATA_DIR}:/data/db/:rw # OS: linux
-      - mongodata:/data/db:rw # OS: windows
+      - ${MONGODB_DATA_DIR}:/data/db/:rw
       - ${MONGODB_LOG_DIR}:/var/log/mongodb/:rw
     restart: always
     command:
@@ -198,10 +197,6 @@ services:
       - my-services
     working_dir: /var/www/html/
     tty: true
-
-# mongodb volume
-volumes:
-  mongodata:
 
 networks:
   my-services:
