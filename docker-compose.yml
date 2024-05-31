@@ -17,6 +17,26 @@ services:
     networks:
       - my-services
 
+  php83:
+    container_name: my-php83
+    build:
+      context: .
+      args:
+        PHP_VERSION: php:${PHP83_VERSION}
+        PHP_EXTENSIONS: ${PHP83_EXTENSIONS}
+        CONTAINER_PACKAGE_URL : ${CONTAINER_PACKAGE_URL}
+        TZ: ${TZ}
+    expose:
+      - ${PHP83_HOST_PORT}
+    volumes:
+      - ${PHP83_PHP_CONF_FILE}:/usr/local/etc/php/php.ini:ro
+      - ${PHP83_FPM_CONF_FILE}:/usr/local/etc/php-fpm.d/www.conf:ro
+      - ${PHP83_LOG_DIR}:/var/log/php/:rw
+      - ${SOURCE_DIR}:/var/www/html/:rw
+    restart: always
+    networks:
+      - my-services
+
   php74:
     container_name: my-php74
     build:
@@ -116,21 +136,37 @@ services:
       - my-services
     tty: true
 
-  mysql:
-    image: mysql:${MYSQL_VERSION}
-    container_name: my-mysql
+  mysql8:
+    image: mysql:${MYSQL8_VERSION}
+    container_name: my-mysql8
     environment:
       TZ: ${TZ}
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL8_ROOT_PASSWORD}"
     ports:
-      - "${MYSQL_HOST_PORT}:3306"
+      - "${MYSQL8_HOST_PORT}:3306"
     volumes:
-      - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
-      - ${MYSQL_LOG_DIR}:/var/log/mysql/:rw
-      - ${MYSQL_DATA_DIR}:/var/lib/mysql/:rw
+      - ${MYSQL8_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+      - ${MYSQL8_LOG_DIR}:/var/log/mysql/:rw
+      - ${MYSQL8_DATA_DIR}:/var/lib/mysql/:rw
     restart: always
     networks:
       - my-services
+
+#  mysql:
+#    image: mysql:${MYSQL_VERSION}
+#    container_name: my-mysql
+#    environment:
+#      TZ: ${TZ}
+#      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+#    ports:
+#      - "${MYSQL_HOST_PORT}:3306"
+#    volumes:
+#      - ${MYSQL_CONF_FILE}:/etc/mysql/conf.d/mysql.cnf:ro
+#      - ${MYSQL_LOG_DIR}:/var/log/mysql/:rw
+#      - ${MYSQL_DATA_DIR}:/var/lib/mysql/:rw
+#    restart: always
+#    networks:
+#      - my-services
 
   redis:
     image: redis:${REDIS_VERSION}

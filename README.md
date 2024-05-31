@@ -1,4 +1,4 @@
-### docker + nginx + mysql + php7/5
+### docker + nginx + mysql8/5 + php8/7/5
 
 **扩展 redis + mongodb + swoole + elasticsearch + node** (更多扩展可编辑 `.env` 文件)
 
@@ -42,6 +42,11 @@
 │   │   │   └── mysql.cnf
 │   │   │── data
 │   │   └── log
+│   ├── mysql8                       Mysql8目录 (配置文件/数据/日志)
+│   │   │── conf
+│   │   │   └── mysql.cnf
+│   │   │── data
+│   │   └── log
 │   ├── nginx                       Nginx目录 (配置文件/日志)
 │   │   │── conf
 │   │   │   │── conf.d
@@ -54,6 +59,11 @@
 │   │   │   └── php-fpm.conf
 │   │   └── log
 │   ├── php74                       PHP74目录 (配置文件/日志)
+│   │   │── conf
+│   │   │   │── php.ini
+│   │   │   └── php-fpm.conf
+│   │   └── log
+│   ├── php83                       PHP83目录 (配置文件/日志)
 │   │   │── conf
 │   │   │   │── php.ini
 │   │   │   └── php-fpm.conf
