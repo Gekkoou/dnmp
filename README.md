@@ -42,7 +42,7 @@
 │   │   │   └── mysql.cnf
 │   │   │── data
 │   │   └── log
-│   ├── mysql8                       Mysql8目录 (配置文件/数据/日志)
+│   ├── mysql8                      Mysql8目录 (配置文件/数据/日志)
 │   │   │── conf
 │   │   │   └── mysql.cnf
 │   │   │── data
